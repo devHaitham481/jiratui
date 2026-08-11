@@ -266,6 +266,107 @@ Besides the hot-keys above the following are always available.
 
 All these bindings above are always displayed at the bottom of the app depending on the component you are focus on.
 
+(use-case-vim-keybindings)=
+### Vim Key Bindings
+
+If you are used to Vim you can enable a set of Vim-style key bindings by setting `enable_vim_keybindings: True` in your
+config file. The bindings are opt-in; when the setting is `False` (the default) nothing changes.
+
+| Key      | Where                | Action                                                                    |
+|----------|----------------------|---------------------------------------------------------------------------|
+| `j`      | Panes and tables     | Moves down one row/line                                                   |
+| `k`      | Panes and tables     | Moves up one row/line                                                     |
+| `g`      | Panes and tables     | Jumps to the top of the pane                                              |
+| `G`      | Panes and tables     | Jumps to the bottom of the pane                                           |
+| `ctrl+d` | Panes and tables     | Moves down one page                                                       |
+| `ctrl+u` | Panes and tables     | Moves up one page                                                         |
+| `h`      | Main screen          | Moves the focus to the previous pane/field                                |
+| `l`      | Main screen          | Moves the focus to the next pane/field                                    |
+| `/`      | Search Results       | Filters the items in the current page of results (the same as `.`)        |
+| `esc`    | Main screen          | Moves the focus back to the Work Items search results                     |
+| `q`      | Anywhere             | Quits the app                                                             |
+| `:`      | Anywhere             | Opens the command line                                                    |
+
+The command line opened with `:` understands the following commands:
+
+| Command                                  | Action                                                                         |
+|------------------------------------------|--------------------------------------------------------------------------------|
+| `:q`, `:qa`, `:quit`, `:wq`, `:x`, `:exit` | Quits the app. Asks for confirmation when `confirm_before_quit` is enabled     |
+| `:q!` (and the `!` variant of any of the commands above) | Quits the app without asking for confirmation                  |
+| `:h`, `:help`                            | Opens the in-app help                                                          |
+
+Since `j` and `k` are used to move up and down, enabling the Vim bindings re-assigns the hot-keys of the two
+components that used them:
+
+| Key | Component                         | Default key |
+| --- | --------------------------------- | ----------- |
+| `w` | Activates the Work Item Key input | `k`         |
+| `e` | Activates the JQL Query input     | `j`         |
+
+The rest of the hot-keys listed above are unchanged. Note that when the focus is on an input field the keys are typed
+into the field instead of triggering a binding; press `esc` (or `tab`) to leave the field first.
+
+(use-case-custom-keybindings)=
+### Customising Key Bindings
+
+You can re-assign any of the key bindings of the app with the setting `custom_keybindings`. It expects a mapping from
+the ID of a binding into the key -- or a comma-separated list of keys -- that should trigger it. These take precedence
+over the default bindings and over the Vim bindings.
+
+```yaml
+custom_keybindings:
+  main_screen.focus_jql_expression: 'e'
+  main_screen.find_by_text: 'ctrl+f'
+  search_results.filter: '/,.'
+```
+
+The IDs of the bindings you can re-assign are:
+
+| Binding ID                            | Default key | Action                                                |
+|---------------------------------------|-------------|-------------------------------------------------------|
+| `app.quit`                            | `ctrl+q`    | Quits the app                                         |
+| `main_screen.find_by_text`            | `/`         | Full-text search                                      |
+| `main_screen.search`                  | `ctrl+r`    | Searches work items                                   |
+| `main_screen.focus_project`           | `p`         | Activates the Project dropdown                        |
+| `main_screen.focus_issue_type`        | `t`         | Activates the Issue Type dropdown                     |
+| `main_screen.focus_status`            | `s`         | Activates the Status dropdown                         |
+| `main_screen.focus_assignee`          | `a`         | Activates the Assignee dropdown                       |
+| `main_screen.focus_work_item_key`     | `k`         | Activates the Work Item Key input                     |
+| `main_screen.focus_created_from`      | `f`         | Activates the Created From input                      |
+| `main_screen.focus_created_until`     | `u`         | Activates the Created Until input                     |
+| `main_screen.focus_order_by`          | `o`         | Activates the Sort dropdown                           |
+| `main_screen.focus_active_sprint`     | `v`         | Activates the Active Sprint checkbox                  |
+| `main_screen.focus_jql_expression`    | `j`         | Activates the JQL Query input                         |
+| `main_screen.focus_search_results`    | `1`         | Activates the Work Items search results pane          |
+| `main_screen.focus_info_tab`          | `2`         | Activates the Info tab                                |
+| `main_screen.focus_details_tab`       | `3`         | Activates the Details tab                             |
+| `main_screen.focus_comments_tab`      | `4`         | Activates the Comments tab                            |
+| `main_screen.focus_related_tab`       | `5`         | Activates the Related tab                             |
+| `main_screen.focus_attachments_tab`   | `6`         | Activates the Attachments tab                         |
+| `main_screen.focus_links_tab`         | `7`         | Activates the Links tab                               |
+| `main_screen.focus_subtasks_tab`      | `8`         | Activates the Subtasks tab                            |
+| `main_screen.create_work_item`        | `ctrl+n`    | Creates a new work item                               |
+| `main_screen.copy_work_item_key`      | `ctrl+k`    | Copies the key of the selected work item              |
+| `main_screen.copy_work_item_url`      | `ctrl+j`    | Copies the URL of the selected work item              |
+| `main_screen.create_git_branch`       | `ctrl+g`    | Creates a Git branch for the selected work item       |
+| `main_screen.show_recent_history`     | `f7`        | Shows recently viewed items                           |
+| `search_results.filter`               | `.`         | Filters the current page of results                   |
+| `search_results.previous_page`        | `alt+left`  | Retrieves the previous page of results                |
+| `search_results.next_page`            | `alt+right` | Retrieves the next page of results                    |
+| `search_results.open_in_browser`      | `ctrl+o`    | Opens the selected work item in the browser           |
+| `search_results.delete_work_item`     | `d`         | Deletes the selected work item                        |
+| `search_results.open_go_to_screen`    | `f6`        | Views the items related to the selected work item     |
+
+The bindings that only exist when `enable_vim_keybindings` is on can be re-assigned too:
+
+| Binding ID                               | Default key | Action                          |
+|------------------------------------------|-------------|---------------------------------|
+| `main_screen.vim_focus_next`             | `l`         | Focuses the next pane/field     |
+| `main_screen.vim_focus_previous`         | `h`         | Focuses the previous pane/field |
+| `main_screen.vim_back_to_search_results` | `escape`    | Focuses the search results      |
+| `app.vim_quit`                           | `q`         | Quits the app                   |
+| `app.vim_command`                        | `:`         | Opens the command line          |
+
 ### Searching Work Items
 
 JiraTUI supports a few ways to search work items.

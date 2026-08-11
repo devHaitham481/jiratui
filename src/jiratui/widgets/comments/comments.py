@@ -20,6 +20,7 @@ from jiratui.widgets.commons.adf import ReadOnlyADFMarkdownTextAreaWidget
 from jiratui.widgets.commons.factory_utils import build_read_only_rich_text_widget
 from jiratui.widgets.commons.widgets import ReadOnlyPlainTextTextAreaWidget
 from jiratui.widgets.screens.confirmation import ConfirmationScreen
+from jiratui.widgets.vim import VIM_SCROLL_BINDINGS, VimScrollBindings
 
 
 @dataclass
@@ -81,7 +82,7 @@ class CommentCollapsible(Collapsible):
             self.post_message(self.Deleted(self._work_item_key, self._comment_id))
 
 
-class IssueCommentsWidget(VerticalScroll):
+class IssueCommentsWidget(VimScrollBindings, VerticalScroll):
     """A container for displaying the comments of a work item.
 
     This widget is responsible for the following:
@@ -107,7 +108,8 @@ class IssueCommentsWidget(VerticalScroll):
             description='New Comment',
             key_display='n',
             tooltip='Add new comment',
-        )
+        ),
+        *VIM_SCROLL_BINDINGS,
     ]
 
     def __init__(self):

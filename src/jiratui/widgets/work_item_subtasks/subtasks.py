@@ -15,6 +15,7 @@ from jiratui.utils.urls import build_external_url_for_issue
 from jiratui.widgets.messages import SearchWorkItem
 from jiratui.widgets.screens.goto import GotToScreen
 from jiratui.widgets.screens.work_item_quick_view import WorkItemQuickViewScreen
+from jiratui.widgets.vim import VIM_SCROLL_BINDINGS, VimScrollBindings
 
 
 @dataclass
@@ -102,7 +103,7 @@ class ChildWorkItemCollapsible(Collapsible):
             self.post_message(SearchWorkItem(work_item_key))
 
 
-class IssueChildWorkItemsWidget(VerticalScroll):
+class IssueChildWorkItemsWidget(VimScrollBindings, VerticalScroll):
     """A container for displaying the subtasks of a work item.
 
     This class defines a key binding to open a modal screen to allow users to create a new work item as a subtask of
@@ -124,6 +125,7 @@ class IssueChildWorkItemsWidget(VerticalScroll):
             show=True,
             key_display='^n',
         ),
+        *VIM_SCROLL_BINDINGS,
     ]
 
     class CreateSubtask(Message):

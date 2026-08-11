@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Add opt-in Vim-style key bindings via the new setting `enable_vim_keybindings`: `h`/`l` to move between panes and
+fields, `j`/`k` to move up and down within a pane, `g`/`G` to jump to the top/bottom of a pane, `ctrl+d`/`ctrl+u` to
+move a page at a time, `/` to filter the current page of search results, `esc` to move the focus back to the search
+results and `q` (or the `:q` and `:q!` commands) to quit. Closes https://github.com/whyisdifficult/jiratui/issues/53
+- Add the setting `custom_keybindings` to re-assign the key of any of the bindings of the app.
+
 ## [1.12.0] 2026-08-01
 
 ### Added

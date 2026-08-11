@@ -26,6 +26,12 @@ from jiratui.utils.mime import (
 from jiratui.utils.urls import build_external_url_for_attachment
 from jiratui.widgets.attachments.add import AddAttachmentScreen
 from jiratui.widgets.screens.confirmation import ConfirmationScreen
+from jiratui.widgets.vim import (
+    VIM_DATA_TABLE_BINDINGS,
+    VIM_SCROLL_BINDINGS,
+    VimDataTableBindings,
+    VimScrollBindings,
+)
 
 
 @dataclass
@@ -36,7 +42,7 @@ class WorkItemAttachments:
     attachments: list[Attachment] | None = None
 
 
-class AttachmentsDataTable(DataTable):
+class AttachmentsDataTable(VimDataTableBindings, DataTable):
     """A [DataTable](#textual.widgets.DataTable) to list the files attached to a work item.
 
     The table is responsible for:
@@ -62,6 +68,7 @@ class AttachmentsDataTable(DataTable):
             key_display='^o',
             tooltip='Open file in the browser',
         ),
+        *VIM_DATA_TABLE_BINDINGS,
     ]
     NOTIFICATIONS_DEFAULT_TITLE = 'Work Item Attachments'
 
@@ -169,7 +176,7 @@ class AttachmentsDataTable(DataTable):
             self.notify('Deleting attachment...', title=self.NOTIFICATIONS_DEFAULT_TITLE)
 
 
-class IssueAttachmentsWidget(VerticalScroll):
+class IssueAttachmentsWidget(VimScrollBindings, VerticalScroll):
     """A container for displaying the files attached to a work item.
 
     This widget is responsible for the following:
@@ -196,6 +203,7 @@ class IssueAttachmentsWidget(VerticalScroll):
             key_display='n',
             tooltip='Attach a new file to a work item',
         ),
+        *VIM_SCROLL_BINDINGS,
     ]
 
     attachments: Reactive[WorkItemAttachments | None] = reactive(None)

@@ -18,6 +18,8 @@ from jiratui.widgets.screens.server import ServerInfoScreen
 def app_with_unrecognized_config_theme() -> JiraApp:
     config_mock = Mock(spec=ApplicationConfiguration)
     config_mock.configure_mock(
+        enable_vim_keybindings=False,
+        custom_keybindings=None,
         jira_api_base_url='foo.bar',
         jira_api_username='foo',
         jira_api_token=SecretStr('bar'),
@@ -55,6 +57,8 @@ def app_with_unrecognized_config_theme() -> JiraApp:
 def app_with_input_and_config_theme() -> JiraApp:
     config_mock = Mock(spec=ApplicationConfiguration)
     config_mock.configure_mock(
+        enable_vim_keybindings=False,
+        custom_keybindings=None,
         jira_api_base_url='foo.bar',
         jira_api_username='foo',
         jira_api_token=SecretStr('bar'),
@@ -92,6 +96,8 @@ def app_with_input_and_config_theme() -> JiraApp:
 def app_with_input_theme() -> JiraApp:
     config_mock = Mock(spec=ApplicationConfiguration)
     config_mock.configure_mock(
+        enable_vim_keybindings=False,
+        custom_keybindings=None,
         jira_api_base_url='foo.bar',
         jira_api_username='foo',
         jira_api_token=SecretStr('bar'),
@@ -129,6 +135,8 @@ def app_with_input_theme() -> JiraApp:
 def app_without_config_theme() -> JiraApp:
     config_mock = Mock(spec=ApplicationConfiguration)
     config_mock.configure_mock(
+        enable_vim_keybindings=False,
+        custom_keybindings=None,
         jira_api_base_url='foo.bar',
         jira_api_username='foo',
         jira_api_token=SecretStr('bar'),
@@ -166,6 +174,8 @@ def app_without_config_theme() -> JiraApp:
 def app() -> JiraApp:
     config_mock = Mock(spec=ApplicationConfiguration)
     config_mock.configure_mock(
+        enable_vim_keybindings=False,
+        custom_keybindings=None,
         jira_api_base_url='foo.bar',
         jira_api_username='foo',
         jira_api_token=SecretStr('bar'),
@@ -582,6 +592,8 @@ def config_dict() -> dict:
         'full_text_search_minimum_term_length': 3,
         'search_on_startup': False,
         'show_keybinding_hints': False,
+        'enable_vim_keybindings': False,
+        'custom_keybindings': None,
     }
 
 

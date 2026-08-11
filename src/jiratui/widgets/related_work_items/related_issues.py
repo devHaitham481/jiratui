@@ -20,6 +20,7 @@ from jiratui.widgets.related_work_items.add import AddWorkItemRelationshipScreen
 from jiratui.widgets.screens.confirmation import ConfirmationScreen
 from jiratui.widgets.screens.goto import GotToScreen
 from jiratui.widgets.screens.work_item_quick_view import WorkItemQuickViewScreen
+from jiratui.widgets.vim import VIM_SCROLL_BINDINGS, VimScrollBindings
 
 
 @dataclass
@@ -159,7 +160,7 @@ class RelatedIssueCollapsible(Collapsible):
             self.post_message(SearchWorkItem(work_item_key))
 
 
-class RelatedIssuesWidget(VerticalScroll):
+class RelatedIssuesWidget(VimScrollBindings, VerticalScroll):
     """A container for displaying the work items related to a work item.
 
     This widget is responsible for:
@@ -181,7 +182,8 @@ class RelatedIssuesWidget(VerticalScroll):
             action='link_work_item',
             description='New Related',
             key_display='n',
-        )
+        ),
+        *VIM_SCROLL_BINDINGS,
     ]
 
     issues: Reactive[WorkItemRelatedItems | None] = reactive(None)

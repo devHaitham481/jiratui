@@ -29,6 +29,8 @@ from jiratui.utils.test_utilities import load_json_response
 def config_for_testing() -> ApplicationConfiguration:
     config_mock = Mock(spec=ApplicationConfiguration)
     config_mock.configure_mock(
+        enable_vim_keybindings=False,
+        custom_keybindings=None,
         jira_api_base_url='foo.bar',
         jira_api_username='foo',
         jira_api_token='bar',

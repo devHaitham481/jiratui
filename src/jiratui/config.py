@@ -268,6 +268,23 @@ class ApplicationConfiguration(BaseSettings):
     enable_goto: bool = True
     """Enables/Disable the feature that allows users to open a modal screen to go to (aka. search and fetch) items
     related to the currently-selected item."""
+    enable_vim_keybindings: bool = False
+    """When this is `True` the app enables Vim-style key bindings: `h`/`l` to move between panes and fields, `j`/`k` to
+    move up and down within a pane, `g`/`G` to jump to the top/bottom of a pane, `/` to filter the current page of
+    search results, `esc` to return to the search results and `q` (or the `:q` and `:q!` commands) to quit. Enabling
+    this also re-assigns the hot-keys of the "Work Item Key" and "JQL Query" inputs to `w` and `e` so that `j` and `k`
+    are free for navigation. The default is `False`."""
+    custom_keybindings: dict[str, str] | None = None
+    """A mapping from the IDs of the key bindings of the app into the key (or comma-separated list of keys) that you
+    want to use for them. These take precedence over the default bindings and over the Vim bindings enabled via
+    `enable_vim_keybindings`.
+    E.g.:
+    ```yaml
+    custom_keybindings:
+      main_screen.focus_jql_expression: 'e'
+      search_results.filter: '/,.'
+    ```
+    """
 
     model_config = SettingsConfigDict(
         extra='allow',

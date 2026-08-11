@@ -17,6 +17,7 @@ from jiratui.widgets.screen import MainScreen
 from jiratui.widgets.screens.config import ConfigFileScreen
 from jiratui.widgets.screens.quit import QuitScreen
 from jiratui.widgets.screens.server import ServerInfoScreen
+from jiratui.widgets.vim import VIM_KEYMAP, VimCommandScreen, vim_keybindings_enabled
 
 
 class JiraApp(App):
@@ -47,6 +48,23 @@ class JiraApp(App):
             key_display='^q',
             tooltip='Quit',
             show=True,
+            id='app.quit',
+        ),
+        Binding(
+            key='q',
+            action='vim_quit',
+            description='Quit',
+            tooltip='Quit',
+            show=False,
+            id='app.vim_quit',
+        ),
+        Binding(
+            key='colon',
+            action='vim_command',
+            description='Command',
+            tooltip='Open the command line, e.g. to run :q or :q!',
+            show=False,
+            id='app.vim_command',
         ),
     ]
     DEFAULT_THEME = 'textual-dark'
@@ -129,8 +147,27 @@ class JiraApp(App):
     def session(self) -> ApplicationSession:
         return self.__session
 
+    def _setup_keybindings(self) -> None:
+        """Applies the keymaps that re-assign the keys of the bindings of the app.
+
+        The Vim keymap is applied first, and only when the user enables `enable_vim_keybindings`. The bindings the user
+        defines in `custom_keybindings` are applied on top of it so they always win.
+
+        Returns:
+            None
+        """
+
+        keymap: dict[str, str] = {}
+        if CONFIGURATION.get().enable_vim_keybindings:
+            keymap.update(VIM_KEYMAP)
+        if custom_keybindings := CONFIGURATION.get().custom_keybindings:
+            keymap.update(custom_keybindings)
+        if keymap:
+            self.set_keymap(keymap)
+
     async def on_mount(self) -> None:
         self._set_application_title()
+        self._setup_keybindings()
 
         await self.push_screen(
             MainScreen(
@@ -176,9 +213,28 @@ class JiraApp(App):
         if CONFIGURATION.get().confirm_before_quit:
             await self.push_screen(QuitScreen())
         else:
-            await self.api.api.client.close_async_client()
-            await self.api.api.async_http_client.close_async_client()
-            self.app.exit()
+            await self.force_quit()
+
+    async def force_quit(self) -> None:
+        """Closes the connections to the Jira API and exits the application without asking for confirmation."""
+        await self.api.api.client.close_async_client()
+        await self.api.api.async_http_client.close_async_client()
+        self.app.exit()
+
+    async def action_vim_quit(self) -> None:
+        """Handles the event to quit the application via the Vim binding `q`."""
+        await self.action_quit()
+
+    async def action_vim_command(self) -> None:
+        """Opens the Vim-style command line, e.g. to run `:q` or `:q!`."""
+        await self.push_screen(VimCommandScreen())
+
+    def check_action(self, action: str, parameters: tuple[object, ...]) -> bool | None:
+        """Check if an action may run."""
+
+        if action.startswith('vim_') and not vim_keybindings_enabled():
+            return False
+        return super().check_action(action, parameters)
 
     async def _set_application_title_using_server_info(self) -> None:
         response_server_info: APIControllerResponse = await self.api.server_info()

@@ -6,6 +6,7 @@ from textual.widgets import Checkbox, Input, Select
 
 from jiratui.widgets.base import DateInput
 from jiratui.widgets.screens.jql import JQLEditorScreen
+from jiratui.widgets.vim import vim_keybindings_enabled
 
 
 class ProjectSelectionInput(Select):
@@ -115,7 +116,7 @@ class WorkItemInputWidget(Input):
             value=value,
         )
         self.border_title = 'Work Item Key'
-        self.border_subtitle = '(k)'
+        self.border_subtitle = '(w)' if vim_keybindings_enabled() else '(k)'
 
     @property
     def help_anchor(self) -> str:
@@ -214,7 +215,7 @@ class JQLSearchWidget(Input):
             type='text',
         )
         self.border_title = 'JQL Query'
-        self.border_subtitle = '(j)'
+        self.border_subtitle = '(e)' if vim_keybindings_enabled() else '(j)'
 
     @property
     def help_anchor(self) -> str:

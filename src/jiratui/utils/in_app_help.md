@@ -80,6 +80,39 @@ Besides the hot-keys above the following are always available.
 
 All these bindings above are always displayed at the bottom of the app depending on the component you are focus on.
 
+## Vim Key Bindings
+
+If you set `enable_vim_keybindings: True` in your config file the app enables a set of Vim-style key bindings. The
+bindings are opt-in; when the setting is `False` (the default) nothing changes.
+
+| Key      | Where            | Action                                                             |
+|----------|------------------|--------------------------------------------------------------------|
+| `j`      | Panes and tables | Moves down one row/line                                            |
+| `k`      | Panes and tables | Moves up one row/line                                              |
+| `g`      | Panes and tables | Jumps to the top of the pane                                       |
+| `G`      | Panes and tables | Jumps to the bottom of the pane                                    |
+| `^d`     | Panes and tables | Moves down one page                                                |
+| `^u`     | Panes and tables | Moves up one page                                                  |
+| `h`      | Main screen      | Moves the focus to the previous pane/field                         |
+| `l`      | Main screen      | Moves the focus to the next pane/field                             |
+| `/`      | Search Results   | Filters the items in the current page of results (the same as `.`) |
+| `esc`    | Main screen      | Moves the focus back to the Work Items search results              |
+| `q`      | Anywhere         | Quits the app                                                      |
+| `:`      | Anywhere         | Opens the command line                                             |
+
+The command line opened with `:` understands `:q`, `:qa`, `:quit`, `:wq`, `:x` and `:exit` to quit the app, and `:h`
+(or `:help`) to open this help. Adding a `!` to any of the quit commands, e.g. `:q!`, quits without asking for
+confirmation even when `confirm_before_quit` is enabled.
+
+Since `j` and `k` are used to move up and down, enabling the Vim bindings re-assigns the hot-keys of the two
+components that used them: `w` activates the Work Item Key input and `e` activates the JQL Query input.
+
+## Customising Key Bindings
+
+You can re-assign any of the key bindings of the app with the setting `custom_keybindings`. It expects a mapping from
+the ID of a binding, e.g. `main_screen.focus_project`, into the key (or comma-separated list of keys) that should
+trigger it. Refer to the official docs for the list of the IDs of all the bindings.
+
 # Searching Work Items
 
 JiraTUI supports a few ways to search work items.

@@ -14,6 +14,8 @@ from jiratui.widgets.work_item_details.fields import IssueSummaryField
 def app() -> JiraApp:
     config_mock = Mock(spec=ApplicationConfiguration)
     config_mock.configure_mock(
+        enable_vim_keybindings=False,
+        custom_keybindings=None,
         jira_api_base_url='foo.bar',
         jira_api_username='foo',
         jira_api_token=SecretStr('bar'),

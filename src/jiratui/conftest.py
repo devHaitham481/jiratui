@@ -28,6 +28,8 @@ from jiratui.models import (
 def config_for_testing() -> ApplicationConfiguration:
     config_mock = Mock(spec=ApplicationConfiguration)
     config_mock.configure_mock(
+        enable_vim_keybindings=False,
+        custom_keybindings=None,
         jira_api_base_url='foo.bar',
         jira_base_url='foo.bar',
         jira_api_username='foo',
@@ -64,6 +66,8 @@ def config_for_testing() -> ApplicationConfiguration:
 def config_for_testing_jira_dc() -> ApplicationConfiguration:
     config_mock = Mock(spec=ApplicationConfiguration)
     config_mock.configure_mock(
+        enable_vim_keybindings=False,
+        custom_keybindings=None,
         jira_api_base_url='foo.bar',
         jira_api_username='foo',
         jira_api_token=SecretStr('bar'),
@@ -97,6 +101,8 @@ def config_for_testing_jira_dc() -> ApplicationConfiguration:
 def jira_api_controller() -> APIController:
     config_mock = Mock(spec=ApplicationConfiguration)
     config_mock.configure_mock(
+        enable_vim_keybindings=False,
+        custom_keybindings=None,
         jira_api_base_url='foo.bar',
         jira_api_username='foo',
         jira_api_token=SecretStr('bar'),
@@ -131,6 +137,8 @@ def jira_api_controller() -> APIController:
 def jira_api_controller_for_jira_dc() -> APIController:
     config_mock = Mock(spec=ApplicationConfiguration)
     config_mock.configure_mock(
+        enable_vim_keybindings=False,
+        custom_keybindings=None,
         jira_api_base_url='foo.bar',
         jira_api_username='foo',
         jira_api_token=SecretStr('bar'),
@@ -165,6 +173,8 @@ def jira_api_controller_for_jira_dc() -> APIController:
 def app() -> JiraApp:
     config_mock = Mock(spec=ApplicationConfiguration)
     config_mock.configure_mock(
+        enable_vim_keybindings=False,
+        custom_keybindings=None,
         jira_api_base_url='foo.bar',
         jira_api_username='foo',
         jira_api_token=SecretStr('bar'),

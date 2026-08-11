@@ -11,6 +11,7 @@ from jiratui.api_controller.controller import APIControllerResponse
 from jiratui.models import IssueRemoteLink
 from jiratui.widgets.remote_links.add import AddRemoteLinkScreen
 from jiratui.widgets.screens.confirmation import ConfirmationScreen
+from jiratui.widgets.vim import VIM_SCROLL_BINDINGS, VimScrollBindings
 
 
 class IssueRemoteLinkCollapsible(Collapsible):
@@ -66,7 +67,7 @@ class IssueRemoteLinkCollapsible(Collapsible):
             self.post_message(self.Deleted(self._work_item_key, self._link_id))
 
 
-class IssueRemoteLinksWidget(VerticalScroll):
+class IssueRemoteLinksWidget(VimScrollBindings, VerticalScroll):
     """A container for adding and updating the list of remote links (aka. web links) associated to a work item.
 
     This widget is responsible for the following:
@@ -88,7 +89,8 @@ class IssueRemoteLinksWidget(VerticalScroll):
             action='add_remote_link',
             description='New Link',
             key_display='n',
-        )
+        ),
+        *VIM_SCROLL_BINDINGS,
     ]
 
     # we need to use always_active to support updates after deleting
